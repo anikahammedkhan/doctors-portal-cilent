@@ -1,0 +1,11 @@
+.hero {
+    background-image: url(../../../Assets/images/chair.png);
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 254, 254, 0.9)), url(../../../Assets/images/chair.png);
+    background-size: cover;
+    background-position: center;
+    height: 840px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
