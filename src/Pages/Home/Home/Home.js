@@ -1,5 +1,6 @@
 import React from 'react';
 import Banner from '../Banner/Banner';
+import ContactUs from '../ContactUs/ContactUs';
 import Hero from '../Hero/Hero';
 import InfoCards from '../InfoCards/InfoCards';
 import MakeAppoinment from '../MakeAppoinment/MakeAppoinment';
@@ -15,6 +16,7 @@ const Home = () => {
             <Hero></Hero>
             <MakeAppoinment></MakeAppoinment>
             <Testimonial></Testimonial>
+            <ContactUs></ContactUs>
         </div>
     );
 };
