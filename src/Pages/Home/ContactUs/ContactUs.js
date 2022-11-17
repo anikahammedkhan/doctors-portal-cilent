@@ -17,10 +17,10 @@ const ContactUs = () => {
                     <input id="email" type="email" placeholder="Your Email Address" required className="block w-full p-2 rounded border focus:ring focus:ring-opacity-25" />
                 </div>
                 <div>
-                    <input id="subject" type="text" placeholder="Subject" required className="block w-full p-2 rounded focus:outline-none focus:ring focus:ring-opacity-25 focus:ring-violet-400 dark:bg-gray-800" />
+                    <input id="subject" type="text" placeholder="Subject" required className="block w-full p-2 rounded focus:outline-none focus:ring focus:ring-opacity-25" />
                 </div>
                 <div>
-                    <textarea id="message" type="text" placeholder="Your Message..." className="block h-[150px] w-full p-2 rounded focus:outline-none focus:ring focus:ring-opacity-25 focus:ring-violet-400 dark:bg-gray-800" required></textarea>
+                    <textarea id="message" type="text" placeholder="Your Message..." className="block h-[150px] w-full p-2 rounded focus:outline-none focus:ring focus:ring-opacity-25" required></textarea>
                 </div>
                 <div type="submit" className='text-center'>
                     <PrimaryButton>Submit</PrimaryButton>
