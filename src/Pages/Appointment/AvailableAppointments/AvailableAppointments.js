@@ -28,8 +28,10 @@ const AvailableAppointments = ({ selectedDate }) => {
             {
                 selectedAppointment &&
                 <BookingModal
+                    key={selectedAppointment._id}
                     selectedDate={selectedDate}
                     selectedAppointment={selectedAppointment}
+                    setSelectedAppointment={setSelectedAppointment}
                 ></BookingModal>}
         </div>
     );
