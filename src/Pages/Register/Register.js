@@ -2,23 +2,35 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const handleLogin = (data) => {
+    const handleRegister = (data) => {
         console.log(data);
     }
+
 
     return (
         <div className='h-[800px] flex justify-center items-center'>
             <div className='w-96 p-7'>
-                <h1 className='text-4xl text-center font-bold'>Login</h1>
-                <form onSubmit={handleSubmit(handleLogin)}>
+                <h1 className='text-4xl text-center font-bold'>Register</h1>
+                <form onSubmit={handleSubmit(handleRegister)}>
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label">
+                            <span className="label-text">Name</span>
+                        </label>
+                        <input type="text" className="input input-bordered w-full max-w-xs"
+                            {...register("Name", {
+                                required: "Name is required"
+                            })}
+                            placeholder="Your Email" />
+                        {errors.Name && <p role="alert" className='text-red-500'>{errors.Name?.message}</p>}
+                    </div>
                     <div className="form-control w-full max-w-xs">
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
-                        <input type="text" className="input input-bordered w-full max-w-xs"
+                        <input type="email" className="input input-bordered w-full max-w-xs"
                             {...register("email", {
                                 required: "Email is required",
                                 pattern: {
@@ -29,7 +41,7 @@ const Login = () => {
                             placeholder="Your Email" />
                         {errors.email && <p role="alert" className='text-red-500'>{errors.email?.message}</p>}
                     </div>
-                    <div className="form-control w-full max-w-xs">
+                    <div className="form-control w-full max-w-xs mb-6">
                         <label className="label">
                             <span className="label-text">Password</span>
                         </label>
@@ -43,13 +55,10 @@ const Login = () => {
                             })}
                             placeholder="Your Password" />
                         {errors.password && <p role="alert" className='text-red-500'>{errors.password?.message}</p>}
-                        <label className="label">
-                            <span className="label-text">Forget Password?</span>
-                        </label>
                     </div>
                     <input className='btn btn-accent text-white font-semibold w-full' type="submit" value="login" />
                 </form>
-                <p>New to doctors portal ? <Link to="/register" className="text-secondary">Create New Account</Link></p>
+                <p>Already have an account ? <Link to="/login" className="text-secondary">Login</Link></p>
                 <div className="flex flex-col w-full border-opacity-50">
                     <div className="divider">OR</div>
                 </div>
@@ -59,4 +68,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
