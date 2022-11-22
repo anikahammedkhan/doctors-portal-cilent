@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { format } from 'date-fns';
+import { AuthContext } from '../../../Contexts/AuthProvider';
+import toast from 'react-hot-toast';
 
 
 const BookingModal = ({ selectedAppointment, selectedDate, setSelectedAppointment }) => {
     const { name, slots } = selectedAppointment;
     const date = format(selectedDate, 'PP');
+
+    const { user } = useContext(AuthContext);
 
     const handleBooking = (e) => {
         e.preventDefault();
@@ -21,8 +25,26 @@ const BookingModal = ({ selectedAppointment, selectedDate, setSelectedAppointmen
             phone,
             slot
         }
-        setSelectedAppointment(null);
-    };
+
+        fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data) {
+                    toast.success('Booking Successful');
+                    form.reset();
+                    setSelectedAppointment(null);
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
+
     return (
         <>
             <input type="checkbox" id="booking-modal" className="modal-toggle" />
@@ -40,8 +62,8 @@ const BookingModal = ({ selectedAppointment, selectedDate, setSelectedAppointmen
                                 >{slot}</option>)
                             }
                         </select>
-                        <input name='name' type="text" placeholder="Your Name" className="input input-bordered input-info w-full " />
-                        <input name='email' type="email" placeholder="Email Address" className="input input-bordered input-info w-full " />
+                        <input name='name' type="text" defaultValue={user?.displayName} placeholder="Your Name" className="input input-bordered input-info w-full " disabled />
+                        <input name='email' type="email" defaultValue={user?.email} placeholder="Email Address" className="input input-bordered input-info w-full " disabled />
                         <input name='phone' type="number" placeholder="Phone Number" className="input input-bordered input-info w-full " />
                         <br />
                         <input className='w-full  btn btn-primary' type="submit" value="Submit" />

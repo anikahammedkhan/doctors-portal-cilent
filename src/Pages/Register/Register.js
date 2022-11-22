@@ -1,8 +1,7 @@
-import { updateProfile } from 'firebase/auth';
 import React, { useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/AuthProvider';
 
 const Register = () => {
@@ -10,27 +9,27 @@ const Register = () => {
     const [error, setError] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const { createUser } = useContext(AuthContext);
+    const { createUser, updateUser } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const handleRegister = (data) => {
         setError('');
         createUser(data.email, data.password)
             .then((result) => {
-                const user = result.user;
                 toast.success('Registration Successful');
-                updateProfile(user,
-                    { displayName: data.name })
+                updateUser(data.name)
                     .then(() => {
+                        navigate('/');
                     })
                     .catch((error) => {
                         setError(error.message);
-                    });
+                    })
             })
             .catch((error) => {
                 const errorMessage = error.message;
                 setError(errorMessage);
             });
-
     }
 
 
@@ -44,7 +43,7 @@ const Register = () => {
                             <span className="label-text">Name</span>
                         </label>
                         <input type="text" className="input input-bordered w-full max-w-xs"
-                            {...register("Name", {
+                            {...register("name", {
                                 required: "Name is required"
                             })}
                             placeholder="Your Name" />
