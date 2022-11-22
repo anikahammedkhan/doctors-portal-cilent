@@ -1,12 +1,36 @@
-import React from 'react';
+import { updateProfile } from 'firebase/auth';
+import React, { useContext, useState } from 'react';
 import { useForm } from "react-hook-form";
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Contexts/AuthProvider';
 
 const Register = () => {
+
+    const [error, setError] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+    const { createUser } = useContext(AuthContext);
+
     const handleRegister = (data) => {
-        console.log(data);
+        setError('');
+        createUser(data.email, data.password)
+            .then((result) => {
+                const user = result.user;
+                toast.success('Registration Successful');
+                updateProfile(user,
+                    { displayName: data.name })
+                    .then(() => {
+                    })
+                    .catch((error) => {
+                        setError(error.message);
+                    });
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                setError(errorMessage);
+            });
+
     }
 
 
@@ -23,7 +47,7 @@ const Register = () => {
                             {...register("Name", {
                                 required: "Name is required"
                             })}
-                            placeholder="Your Email" />
+                            placeholder="Your Name" />
                         {errors.Name && <p role="alert" className='text-red-500'>{errors.Name?.message}</p>}
                     </div>
                     <div className="form-control w-full max-w-xs">
@@ -49,14 +73,21 @@ const Register = () => {
                             {...register("password", {
                                 required: "Password is required",
                                 minLength: {
-                                    value: 6,
-                                    message: "Password must have at least 6 characters"
+                                    value: 8,
+                                    message: "Password must have at least 8 characters"
+                                },
+                                pattern: {
+                                    value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i,
+                                    message: "Password must have at least 1 uppercase, 1 lowercase, 1 number and 1 special character"
                                 }
                             })}
                             placeholder="Your Password" />
                         {errors.password && <p role="alert" className='text-red-500'>{errors.password?.message}</p>}
                     </div>
-                    <input className='btn btn-accent text-white font-semibold w-full' type="submit" value="login" />
+                    <div>
+                        {error && <p role="alert" className='text-red-500'>{error}</p>}
+                    </div>
+                    <input className='btn btn-accent text-white font-semibold w-full' type="submit" value="Register" />
                 </form>
                 <p>Already have an account ? <Link to="/login" className="text-secondary">Login</Link></p>
                 <div className="flex flex-col w-full border-opacity-50">
